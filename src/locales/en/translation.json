@@ -1,5 +1,7 @@
 {
-  "Home": "Home",
-  "Meals": "Meals",
-  "Dumplings": "Dumplings"
+  "Dishes": "Dishes",
+  "Dumplings": "Dumplings",
+  "Random": "Random",
+  "Ingredients": "Ingredients",
+  "Recipe": "Recipe"
 }

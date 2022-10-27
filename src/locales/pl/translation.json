@@ -1,5 +1,7 @@
 {
-  "Home": "Dom",
-  "Meals": "Potrawy",
-  "Dumplings": "Pierogi"
+  "Dishes": "Posiłek",
+  "Dumplings": "Pierogi",
+  "Random": "Losowy",
+  "Ingredients": "Składniki",
+  "Recipe": "Przepis"
 }

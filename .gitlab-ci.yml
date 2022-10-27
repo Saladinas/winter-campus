@@ -1,0 +1,30 @@
+build:
+  stage: build
+  image: node:16-slim
+  before_script:
+    - echo "@bc:registry=https://gitlab.cern.ch/api/v4/projects/114814/packages/npm/\n" > ~/.npmrc
+    - echo "$BC_REGISTRY_AUTH" >> ~/.npmrc
+  script:
+    - npm i
+    - npm run build
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+      - node_modules
+
+build-image:
+  stage: deploy
+  variables:
+    IMAGE_DESTINATION: ${CI_REGISTRY_IMAGE}:latest
+  image: 
+        # We recommend using the CERN version of the Kaniko image: gitlab-registry.cern.ch/ci-tools/docker-image-builder
+      name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
+      entrypoint: [""]
+  script:
+      # Prepare Kaniko configuration file
+      - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+      # Build and push the image from the Dockerfile at the root of the project.
+      - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $IMAGE_DESTINATION
+      # Print the full registry path of the pushed image
+      - echo "Image pushed successfully to ${IMAGE_DESTINATION}"
